@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Fog Guide | Jiayuan Zhang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* 全局暖色背景，与主页一致 */
+        .warm-gradient-bg {
+            background: linear-gradient(to bottom right, #FF9A9E 0%, #FECFEF 20%, #FFF1EB 50%, #e0c3fc 100%);
+            background-attachment: fixed;
+        }
+
+        /* 隐藏滚动条但保留滚动功能 (美观) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 玻璃拟态卡片 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="warm-gradient-bg antialiased h-screen overflow-hidden flex flex-col md:flex-row">
+
+    <!-- ================= 左侧：视觉与概念 (Visual & Concept) ================= -->
+    <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group">
+        
+        <!-- 背景图：这里用了一个占位符，您可以换成您自己的水彩森林/小刺猬设计图 -->
+        <!-- 建议图片比例：竖屏 -->
+        <img src="https://images.unsplash.com/photo-1446729241834-4a4128d57895?q=80&w=2672&auto=format&fit=crop" 
+             alt="Foggy Forest Concept" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+        
+        <!-- 遮罩层：让文字更清晰 -->
+        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px]"></div>
+
+        <!-- 返回按钮 (浮动在左上角) -->
+        <a href="portfolio.html" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-sm font-bold text-white bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full transition-all">
+            <span>&larr;</span> Back to Home
+        </a>
+
+        <!-- 左侧文字内容 -->
+        <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white z-10 bg-gradient-to-t from-black/60 to-transparent">
+            <div class="mb-4">
+                <span class="bg-white/20 backdrop-blur-md border border-white/30 text-white px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
+                    Concept App
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+                The Foggy Start
+            </h1>
+            <p class="text-lg md:text-xl font-light text-white/90 leading-relaxed max-w-lg">
+                "University isn't a test of intelligence, it's a journey of methods." <br>
+                <span class="text-sm opacity-75 mt-2

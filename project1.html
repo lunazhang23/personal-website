@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Project | Jiayuan Zhang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入主页同款字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* 1. 字体与主页一致 */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* 2. 主页同款暖色背景 */
+        .warm-gradient-bg {
+            background: linear-gradient(to bottom right, #FF9A9E 0%, #FECFEF 20%, #FFF1EB 50%, #e0c3fc 100%);
+            background-attachment: fixed;
+        }
+
+        /* 3. 内容区的玻璃拟态卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85); /* 增加一点不透明度以提高阅读性 */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(255, 100, 120, 0.1);
+        }
+
+        /* 淡入淡出动画 */
+        .fade-anim { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0.8; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="warm-gradient-bg text-slate-800 antialiased min-h-screen pb-20">
+    
+    <!-- 顶部导航 -->
+    <nav class="sticky top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-white/50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <span class="font-bold text-lg tracking-wide text-gray-900">Jiayuan Zhang<span class="text-rose-500">.</span></span>
+            <!-- 返回主页按钮：已修复链接 -->
+            <a href="index.html" class="flex items-center gap-2 text-sm font-bold text-gray-600 bg-white/50 border border-white/50 px-4 py-2 rounded-full hover:bg-rose-50 hover:text-rose-600 transition shadow-sm">
+                <span>&larr;</span> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主要内容容器 -->
+    <div class="max-w-4xl mx-auto px-4 mt-12">
+        <div class="glass-card rounded-[2.5rem] p-8 md:p-12">
+            
+            <!-- 标题区域 -->
+            <div class="mb-10">
+                <span class="inline-block px-3 py-1 rounded-full bg-rose-100 text-rose-600 font-bold tracking-wider text-xs border border-rose-200">RESEARCH • 2023-2024</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-5 leading-tight">Comparative Dialogue Analysis via ICAP</h1>
+            </div>
+            
+            <!-- ======================= 轮播图区域 ======================= -->
+            <div class="relative w-full bg-gray-100 rounded-2xl overflow-hidden shadow-sm mb-12 border border-white group">
+                
+                <div id="slider-container" class="relative aspect-[16/9] w-full">
+                    <!-- 第 1 张图：已添加 object-top，图片内容会下移，保留头部 -->
+                    <div class="slide w-full h-full">
+                        <img src="p1.jpg" alt="Research Overview" class="w-full h-full object-cover object-top">
+                    </div>
+                    <!-- 第 2 张图 -->
+                    <div class="slide w-full h-full hidden">
+                        <img src="p1_1.jpg" alt="Research Proposal" class="w-full h-full object-cover">
+                    </div>
+                    <!-- 第 3 张图 -->
+                    <div class="slide w-full h-full hidden">
+                        <img src="p1_2.jpg" alt="Methodology Detail" class="w-full h-full object-cover">
+                    </div>
+                    <!-- 第 4 张图 -->
+                    <div class="slide w-full h-full hidden">
+                        <img src="p1_3.jpg" alt="Literature Review" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-rose-900 p-3 rounded-full shadow-lg transition hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                </button>
+                <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-rose-900 p-3 rounded-full shadow-lg transition hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </button>
+                
+                <!-- 指示点 -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    <div class="dot w-2 h-2 rounded-full bg-white shadow-sm transition-all duration-300"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-white/60 shadow-sm transition-all duration-300"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-white/60 shadow-sm transition-all duration-300"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-white/60 shadow-sm transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- 文字详情 -->
+            <div class="prose prose-lg text-gray-600 max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-rose-500">
+                <h3 class="text-2xl mb-4">Overview</h3>
+                <p class="mb-8 leading-relaxed">
+                    This independent research project focused on coding classroom interactions to identify the differences between novice and expert teachers. By utilizing the ICAP framework (Interactive, Constructive, Active, Passive), I aimed to make the "invisible" scaffolding strategies visible.
+                </p>
+                <h3 class="text-2xl mb-4">Methodology</h3>
+                <p class="mb-8 leading-relaxed">
+                    I employed a mixed-methods approach, combining quantitative coding of 10+ hours of classroom transcripts with qualitative discourse analysis. This allowed me to map out the frequency and depth of cognitive engagement prompted by teachers.
+                </p>
+                <h3 class="text-2xl mb-4">Key Findings</h3>
+                <p class="leading-relaxed">
+                    The data revealed that expert teachers used significantly more "Constructive" prompts that encouraged students to generate new ideas, whereas novice teachers relied heavily on "Passive" lecture styles.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            slides.forEach(slide => { slide.classList.add('hidden'); slide.classList.remove('fade-anim'); });
+            dots.forEach(dot => { dot.classList.add('bg-white/60'); dot.classList.remove('bg-white'); });
+
+            slides[currentSlide].classList.remove('hidden');
+            slides[currentSlide].classList.add('fade-anim');
+            
+            if(dots[currentSlide]) { dots[currentSlide].classList.remove('bg-white/60'); dots[currentSlide].classList.add('bg-white'); }
+        }
+        function changeSlide(direction) { showSlide(currentSlide + direction); }
+        showSlide(0);
+    </script>
+</body>
+</html>

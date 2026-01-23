@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Forest | Jiayuan Zhang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* 全局暖色背景 */
+        .warm-gradient-bg {
+            background: linear-gradient(to bottom right, #FF9A9E 0%, #FECFEF 20%, #FFF1EB 50%, #e0c3fc 100%);
+            background-attachment: fixed;
+        }
+
+        /* 隐藏滚动条但保留功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 右侧内容的玻璃卡片效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.5rem;
+        }
+    </style>
+</head>
+<!-- 布局：电脑端左右分屏 (h-screen)，手机端上下滚动 (min-h-screen) -->
+<body class="warm-gradient-bg antialiased md:h-screen md:overflow-hidden flex flex-col md:flex-row">
+
+    <!-- ================= 左侧：视觉概念 (固定不动) ================= -->
+    <div class="w-full md:w-1/2 h-[40vh] md:h-full relative overflow-hidden group shrink-0">
+        
+        <!-- 返回按钮 -->
+        <a href="index.html" class="absolute top-6 left-6 z-30 flex items-center gap-2 text-xs font-bold text-white bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full transition-all">
+            <span>&larr;</span> Back to Home
+        </a>
+
+        <!-- 🔥 修改处：背景图换成了 hedgehog.jpg 🔥 -->
+        <img src="hedgehog.jpg" 
+             alt="Hedgehog walking into sunlight" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+        
+        <!-- 遮罩层 (稍微调低了浓度，让温暖的刺猬图更透亮一点) -->
+        <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-[1px]"></div>
+        
+        <!-- 底部渐变，保证白色文字清晰可见 -->
+        <div class="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent"></div>
+
+        <!-- 左侧文字内容 -->
+        <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white z-20">
+            <div class="mb-4 animate-pulse">
+                <!-- 图标换成微光星 ✨ -->
+                <span class="bg-white/10 backdrop-blur-md border border-amber-200/30 text-amber-100 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase inline-flex items-center gap-2">
+                    ✨ Concept App
+                </span>
+            </div>
+            
+            <!-- 名字：微光森林 -->
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-amber-200 drop-shadow-sm">
+                Lumina <br> Forest
+            </h1>
+
+            <!-- 标语：温暖治愈版 -->
+            <p class="text-base md:text-lg font-light text-white/90 leading-relaxed max-w-md border-l-2 border-amber-200/40 pl-6">
+                "The fog is just a season.<br>Keep walking, and the path will appear."
+                <span class="block mt-4 text-sm opacity-70 font-normal italic">
+                    — A watercolor journey finding the sunlit path.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= 右侧：详细内容 (可滚动) ================= -->
+    <div class="w-full md:w-1/2 h-auto md:h-full overflow-y-auto no-scrollbar relative">
+        <div class="p-6 md:p-12 max-w-2xl mx-auto space-y-12">
+
+            <!-- 1. 理论支持部分 -->
+            <section class="mt-8 md:mt-16">
+                <h2 class="text-xs font-bold text-rose-600 tracking-widest uppercase mb-4">01. Theoretical Basis</h2>
+                <div class="glass-card p-6 md:p-8 shadow-sm">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Attribution Therapy Revisited</h3>
+                    <p class="text-sm text-gray-500 font-medium mb-6">Based on Wilson & Linville (1982)</p>
+                    
+                    <div class="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
+                        <p>
+                            Many college freshmen interpret poor academic performance as a sign of low ability (a stable, internal cause). This mindset leads to a "fog" of helplessness and drop-out risks.
+                        </p>
+                        <p class="font-semibold text-gray-900 border-l-4 border-rose-400 pl-4 bg-rose-50/50 py-2 rounded-r-lg">
+                            "The intervention goal is to shift attributions from stable causes (I am stupid) to unstable causes (I need better methods)."
+                        </p>
+                        <p>
+                            My design applies this psychological mechanism into a gamified narrative, helping students realize that low grades are temporary and modifiable.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 功能设计部分 -->
+            <section>
+                <h2 class="text-xs font-bold text-orange-600 tracking-widest uppercase mb-4">02. Core Features</h2>
+                <div class="space-y-6">
+                    
+                    <!-- Feature A: 统计地形图 -->
+                    <div class="glass-card p-6 hover:shadow-md transition-shadow group cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                🌲
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">Stats as Terrain</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+                                    Instead of cold Excel sheets, we use terrain maps. Freshmen footprints start in messy valleys but lead to sunlit peaks. GPA growth is visualized as saplings growing into trees, metaphorically showing that "upward trend is the norm."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature B: 林间回响 (视频) -->
+                    <div class="glass-card p-6 hover:shadow-md transition-shadow group cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                🔥
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">Forest Echoes (Interviews)</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+                                    Video interviews with seniors are packaged as "memory magic" bubbles by the campfire. They don't preach; they share their own freshman failures, validating that "everyone gets lost sometimes."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature C: 背包归因 (核心) -->
+                    <div class="glass-card p-6 border-rose-100 hover:border-rose-300 transition-colors group cursor-default relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-rose-50 rounded-bl-full -mr-10 -mt-10 z-0"></div>
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                🎒
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">Sorting the Backpack</h4>
+                                <p class="text-xs text-rose-500 font-bold mb-2 uppercase tracking-wide">Reason Analysis Intervention</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    Users classify their worries.
+                                    <br>
+                                    <span class="block mt-2">
+                                        🪨 <strong>Rocks (Stable):</strong> "I'm not smart enough." (The hedgehog gently rejects this burden).
+                                    </span>
+                                    <span class="block mt-1">
+                                        🌱 <strong>Seeds (Unstable/Controllable):</strong> "I haven't found the method yet." (Planting these makes flowers bloom).
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 3. 结语 -->
+            <div class="pb-16 pt-8 text-center">
+                <p class="text-2xl font-serif italic text-gray-400">
+                    "Grades are just temporary weather, <br> not your final destination."
+                </p>
+                <div class="w-16 h-1 bg-gradient-to-r from-rose-200 to-orange-200 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

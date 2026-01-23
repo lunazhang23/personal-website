@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jiayuan Zhang | Learning Designer & Researcher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* 1. 字体与排版优化 */
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-variant-ligatures: none; 
+        }
+        
+        /* 2. 核心：全局暖色动态渐变背景 */
+        .warm-gradient-bg {
+            background: linear-gradient(to bottom right, #FF9A9E 0%, #FECFEF 20%, #FFF1EB 50%, #e0c3fc 100%);
+            background-attachment: fixed;
+        }
+
+        /* 3. 玻璃拟态效果 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* --- 动画定义 --- */
+        @keyframes simple-fade-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-simple-fade-up {
+            animation: simple-fade-up 0.8s ease-out forwards 0.5s; 
+            opacity: 0; /* 初始隐藏 */
+        }
+
+        /* 背景光斑动画 */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        /* 隐藏滚动条但保留功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="warm-gradient-bg text-gray-800 antialiased relative min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 top-0 pt-4 px-4">
+        <div class="glass-panel max-w-5xl mx-auto px-6 py-3 flex justify-between items-center rounded-full shadow-lg shadow-pink-500/5">
+            <!-- 名字 Logo -->
+            <a href="#" class="text-lg font-medium tracking-wide text-gray-800 hover:text-rose-600 transition-colors duration-300 cursor-pointer">
+                Jiayuan Zhang<span class="text-rose-500">.</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-semibold text-gray-600">
+                <a href="#about" class="hover:text-rose-500 transition-colors">About</a>
+                <a href="project1.html" class="hover:text-rose-500 transition-colors">Research</a>
+                <a href="project2.html" class="hover:text-rose-500 transition-colors">Practice</a>
+                <a href="project3.html" class="hover:text-rose-500 transition-colors">Architecture</a>
+            </div>
+
+            <!-- 🔥 修改后的 Get in Touch 区域 (带悬停下拉菜单) 🔥 -->
+            <div class="relative group">
+                <!-- 触发按钮 -->
+                <button class="bg-gray-900 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider group-hover:bg-rose-500 hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+                    Get in Touch
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3 transition-transform group-hover:rotate-180">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+
+                <!-- 下拉菜单内容 -->
+                <div class="absolute right-0 top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50">
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-2 w-56 overflow-hidden">
+                        
+                        <!-- 1. Email -->
+                        <a href="mailto:jiayuan23zhang@gmail.com" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-colors">
+                            <span class="bg-gray-100 p-1.5 rounded-lg text-gray-600 group-hover:text-rose-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                </svg>
+                            </span>
+                            <span class="font-medium">Email Me</span>
+                        </a>
+
+                        <!-- 2. Twitter / X -->
+                        <a href="https://x.com/jiayuanzhang23" target="_blank" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-colors">
+                            <span class="bg-gray-100 p-1.5 rounded-lg text-gray-600 group-hover:text-rose-500">
+                                <!-- X Logo SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="w-4 h-4">
+                                    <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+                                </svg>
+                            </span>
+                            <span class="font-medium">Twitter / X</span>
+                        </a>
+
+                        <!-- 3. YouTube -->
+                        <a href="https://www.youtube.com/@LunaZhang23" target="_blank" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-colors">
+                            <span class="bg-gray-100 p-1.5 rounded-lg text-gray-600 group-hover:text-rose-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                </svg>
+                            </span>
+                            <span class="font-medium">YouTube</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Get in Touch -->
+
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-20 px-6 max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center gap-12">
+            <!-- Left Text Content -->
+            <div class="max-w-4xl md:w-2/3">
+                <div class="inline-block px-4 py-1.5 mb-8 text-xs font-bold tracking-widest text-rose-600 uppercase bg-white/60 backdrop-blur-sm rounded-full shadow-sm border border-white/50">
+                    📍 Suzhou • EdTech Applicant
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-8 tracking-tight">
+                    Designing Scaffolds for <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-orange-500">Minds</span>, Not Just Buildings.
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-2xl mb-10 font-light">
+                    From Architecture to Learning Sciences. I bridge physical space design with cognitive support systems.
+                </p>
+                
+                <!-- Access Library 按钮 (已关联 openResourceModal) -->
+                <div class="flex flex-wrap items-center gap-6">
+                    <button onclick="openResourceModal()" class="group flex items-center gap-3 bg-gray-900 text-white pl-6 pr-8 py-4 rounded-full font-bold shadow-xl shadow-gray-900/10 hover:bg-rose-600 hover:shadow-rose-500/30 hover:-translate-y-1 transition-all duration-300 cursor-pointer border border-transparent">
+                        <span class="bg-white/20 p-2 rounded-full group-hover:bg-white/30 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                        </span>
+                        <span>Access Library</span>
+                    </button>
+                    
+                    <span class="flex items-center text-gray-500 text-sm font-medium border-l-2 border-gray-300/50 pl-6 h-10">
+                        Fluent in: Design Thinking, SPSS, BIM
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Right Image Content -->
+            <div class="md:w-1/3 flex flex-col items-center justify-center relative z-10">
+                <!-- Background Blobs -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
+                <div class="absolute top-0 -left-4 w-64 h-64 bg-orange-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+
+                <!-- 1. Profile Image -->
+                <div class="relative w-64 h-64 md:w-80 md:h-80 group mb-10">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-rose-400 to-orange-400 rounded-full transform rotate-6 group-hover:rotate-12 transition-transform duration-500 opacity-60"></div>
+                    <img src="profile.jpg" alt="Jiayuan Zhang" class="relative w-full h-full object-cover rounded-full border-[6px] border-white shadow-2xl transform group-hover:-translate-y-2 transition-transform duration-500">
+                </div>
+
+                <!-- 2. Now Building Card -->
+                <a href="project-fog.html" class="block w-72 p-4 rounded-2xl border border-[#d1d8d0]/50 bg-[#FFFDF5]/90 backdrop-blur-md shadow-[0_8px_30px_rgba(141,163,153,0.25)] animate-simple-fade-up hover:scale-[1.02] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#8da399]/20 transition-all duration-300 cursor-pointer group/card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8da399] opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#8da399]"></span>
+                        </span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-[#6c7c70] group-hover/card:text-rose-600 transition-colors">Now Building</span>
+                        <span class="ml-auto text-gray-400 text-sm group-hover/card:translate-x-1 transition-transform">→</span>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#e0e5df] to-[#d1d8d0] flex items-center justify-center text-xl shadow-inner shrink-0 group-hover/card:scale-110 transition-transform duration-300">
+                            🌲
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm leading-tight group-hover/card:text-rose-600 transition-colors">Academic Fog Guide</h4>
+                            <p class="text-[11px] text-gray-500 mt-1 leading-snug">
+                                A watercolor journey for attribution intervention & resilience.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Narrative & Timeline -->
+    <section id="about" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl shadow-rose-900/5 p-8 md:p-16">
+            <div class="grid md:grid-cols-2 gap-16 items-start">
+            
+                <!-- Left Column: Text -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-8 text-gray-900">The Shift: From Personal Distress to <span class="text-rose-500">Systemic Support</span></h2>
+                    <div class="space-y-6 text-gray-600 leading-relaxed text-lg font-light">
+                        <p>
+                            During my undergraduate studies in Architecture, I realized that what I interpreted as personal inadequacy was often a <b class="text-gray-900 font-semibold">systemic failure</b> of the learning environment. This realization sparked my journey.
+                        </p>
+                        <p>
+                            Now, as an IELTS educator and researcher, I apply the rigors of architectural design to education. I don't just teach; I design <b class="text-gray-900 font-semibold">interventions</b>. My goal is to make the "invisible" cognitive process visible.
+                        </p>
+                        <blockquote class="bg-rose-50 border-l-4 border-rose-400 p-6 rounded-r-xl italic text-gray-700 my-8">
+                            "Effective teaching extends far beyond the charisma of an individual teacher; it is a science that can be analyzed, optimized, and improved."
+                        </blockquote>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Timeline -->
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+                    <div class="relative border-l-2 border-rose-100 ml-3 space-y-12">
+                        
+                        <!-- Timeline Item 1 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute -left-[9px] top-1 w-5 h-5 bg-rose-500 border-4 border-white rounded-full box-content shadow-sm group-hover:scale-125 transition-transform"></span>
+                            <div class="flex flex-col">
+                                <span class="inline-block text-xs font-bold text-rose-500 mb-1">2024 - Present</span>
+                                <h3 class="text-lg font-bold text-gray-900">IELTS Teacher</h3>
+                                <div class="text-sm text-gray-500">Suzhou Kaipu Education Culture</div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute -left-[9px] top-1 w-5 h-5 bg-white border-4 border-orange-200 rounded-full box-content group-hover:border-orange-400 transition-colors"></span>
+                            <div class="flex flex-col">
+                                <span class="inline-block text-xs font-bold text-gray-400 mb-1">2024</span>
+                                <h3 class="text-lg font-bold text-gray-900">Learning Management Coordinator</h3>
+                                <div class="text-sm text-gray-500">Suzhou Beiya International Education</div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3: Preschool Teacher -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute -left-[9px] top-1 w-5 h-5 bg-orange-400 border-4 border-white rounded-full box-content shadow-sm"></span>
+                            <div class="flex flex-col">
+                                <span class="inline-block text-xs font-bold text-orange-500 mb-1">2023</span>
+                                <h3 class="text-lg font-bold text-gray-900">Preschool Teacher</h3>
+                                <div class="text-sm text-gray-500 mb-4">Suzhou Rise English Center</div>
+                                
+                                <div class="flex flex-wrap gap-3 mt-1">
+                                    <div class="relative w-16 h-16 cursor-zoom-in overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                                        <img src="preschool-1.jpg" alt="Teaching Moment 1" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="relative w-16 h-16 cursor-zoom-in overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                                        <img src="preschool-2.jpg" alt="Teaching Moment 2" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="relative w-16 h-16 cursor-zoom-in overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                                        <img src="preschool-3.jpg" alt="Teaching Moment 3" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="relative w-16 h-16 cursor-zoom-in overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                                        <img src="preschool-4.jpg" alt="Teaching Moment 4" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 4 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute -left-[9px] top-1 w-5 h-5 bg-white border-4 border-orange-200 rounded-full box-content group-hover:border-orange-400 transition-colors"></span>
+                            <div class="flex flex-col">
+                                <span class="inline-block text-xs font-bold text-gray-400 mb-1">2017 - 2021</span>
+                                <h3 class="text-lg font-bold text-gray-900">Architect</h3>
+                                <div class="text-sm text-gray-500">Institute of Building Science Group</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Works Grid -->
+    <section class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <h2 class="text-4xl font-bold text-gray-900">Selected Projects</h2>
+            <p class="text-left md:text-right text-gray-600 font-medium">Evidence of Research, <br>Design, and Practice</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            
+            <!-- Project 1: Research -->
+            <a href="project1.html" class="group block cursor-pointer h-full">
+                <div class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-white/60 h-full flex flex-col">
+                    <div class="h-56 bg-rose-100 rounded-xl mb-5 overflow-hidden relative shrink-0">
+                        <img src="p1.jpg" alt="Research Chart" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/10 transition duration-300"></div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-1 rounded-full uppercase tracking-wider">Research</span>
+                        <span class="text-[10px] font-bold text-gray-400 px-2 py-1">2023-2024</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-rose-500 transition-colors">Comparative Dialogue Analysis via ICAP</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 flex-grow">
+                        Independent research coding classroom interactions of novice and expert teachers. Used mixed-methods to identify scaffolding strategies.
+                    </p>
+                </div>
+            </a>
+
+            <!-- Project 2: Practice -->
+            <a href="project2.html" class="group block cursor-pointer h-full">
+                <div class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-white/60 h-full flex flex-col">
+                    <div class="h-56 bg-rose-100 rounded-xl mb-5 overflow-hidden relative shrink-0">
+                        <img src="p2.jpg" alt="Students in Workshop" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/10 transition duration-300"></div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] font-bold text-orange-600 bg-orange-50 border border-orange-100 px-2 py-1 rounded-full uppercase tracking-wider">Practice</span>
+                        <span class="text-[10px] font-bold text-gray-400 px-2 py-1">2023</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-rose-500 transition-colors">Design Thinking for ESL Students</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 flex-grow">
+                        A curriculum redesign project integrating architectural design thinking into English language learning for preschoolers.
+                    </p>
+                </div>
+            </a>
+            
+            <!-- Project 3: Architecture -->
+             <a href="project3.html" class="group block cursor-pointer h-full">
+                <div class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-white/60 h-full flex flex-col">
+                    <div class="h-56 bg-rose-100 rounded-xl mb-5 overflow-hidden relative shrink-0">
+                        <img src="p3.jpg" alt="Architectural Model" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-rose-500/0 group-hover:bg-rose-500/10 transition duration-300"></div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-[10px] font-bold text-gray-600 bg-gray-100 border border-gray-200 px-2 py-1 rounded-full uppercase tracking-wider">Architecture</span>
+                        <span class="text-[10px] font-bold text-gray-400 px-2 py-1">2017-2021</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-rose-500 transition-colors">Educational Space Design</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 flex-grow">
+                        Selected architectural works focusing on how physical environments influence learning behaviors and social interaction.
+                    </p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white/50 backdrop-blur-md border-t border-white/60 pt-16 pb-8">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Let's build better learning futures.</h2>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="text-gray-400 hover:text-rose-500 transition-colors">LinkedIn</a>
+                <a href="#" class="text-gray-400 hover:text-rose-500 transition-colors">ResearchGate</a>
+                <a href="#" class="text-gray-400 hover:text-rose-500 transition-colors">Email</a>
+            </div>
+            <p class="text-xs text-gray-400">
+                © 2024 Jiayuan Zhang. Content designed & coded by Jiayuan.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- Resource Library Modal (还原截图效果) -->
+    <!-- ========================================== -->
+    <div id="resource-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        
+        <!-- 1. 黑色半透明背景遮罩 -->
+        <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-100" onclick="closeResourceModal()"></div>
+
+        <!-- 2. 模态框主体 -->
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                
+                <div class="relative transform overflow-hidden rounded-[2.5rem] bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-lg animate-simple-fade-up">
+                    
+                    <!-- Header: 米色背景 -->
+                    <div class="bg-[#FFF8F3] px-8 pt-8 pb-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900" id="modal-title">Resource Library</h3>
+                                <p class="mt-1 text-sm text-gray-500">Curated materials & research data.</p>
+                            </div>
+                            <!-- 关闭按钮 (X) -->
+                            <button type="button" onclick="closeResourceModal()" class="rounded-full bg-white p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none shadow-sm transition-all">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Body: 文件列表 -->
+                    <div class="px-6 py-6 space-y-4 bg-white">
+                        
+                        <!-- File 1: ICAP (对应 icap-framework.pdf) -->
+                        <a href="downloads/icap-framework.pdf" download class="group flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:border-rose-200 hover:shadow-lg hover:shadow-rose-500/5 transition-all duration-300 cursor-pointer bg-white">
+                            <div class="flex items-center gap-4">
+                                <!-- 图标: 红色文档 -->
+                                <div class="h-12 w-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 group-hover:text-rose-600 transition-colors">Coding Manual for ICAP</h4>
+                                    <p class="text-xs text-gray-400">PDF • Manual</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-rose-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </a>
+
+                        <!-- File 2: Scaffolding (对应 design-thinking-journeys.pdf) -->
+                        <a href="downloads/design-thinking-journeys.pdf" download class="group flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 cursor-pointer bg-white">
+                            <div class="flex items-center gap-4">
+                                <!-- 图标: 橙色书籍 -->
+                                <div class="h-12 w-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 group-hover:text-orange-600 transition-colors">Scaffolding Strategies Guide</h4>
+                                    <p class="text-xs text-gray-400">PDF • Guide</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </a>
+
+                        <!-- File 3: Data Set (如果你没有这个zip文件，这只是一个占位) -->
+                        <div class="group flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 cursor-not-allowed bg-gray-50 opacity-60">
+                            <div class="flex items-center gap-4">
+                                <!-- 图标: 蓝色盒子 -->
+                                <div class="h-12 w-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">2024 Research Data Set</h4>
+                                    <p class="text-xs text-gray-500">Processing...</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">Soon</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-gray-50 px-6 py-4 text-center border-t border-gray-100">
+                        <p class="text-xs text-gray-400">Copyright © 2024 Jiayuan Zhang. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. JavaScript: 控制弹窗显示和隐藏 -->
+    <script>
+        function openResourceModal() {
+            const modal = document.getElementById('resource-modal');
+            modal.classList.remove('hidden');
+            // 禁止背景滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResourceModal() {
+            const modal = document.getElementById('resource-modal');
+            modal.classList.add('hidden');
+            // 恢复背景滚动
+            document.body.style.overflow = 'auto';
+        }
+
+        // 按 ESC 键也可以关闭
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeResourceModal();
+            }
+        });
+    </script>
+</body>
+</html>

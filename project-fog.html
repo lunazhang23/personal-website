@@ -1,176 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Forest | Jiayuan Zhang</title>
+    <title>Lumina Forest | In Search of the Sunlit Path</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Merriweather', serif; background-color: #ffffff; color: #1c1917; }
+        h1, h2, h3, .ui-text { font-family: 'Inter', sans-serif; }
         
-        /* 全局暖色背景 */
-        .warm-gradient-bg {
-            background: linear-gradient(to bottom right, #FF9A9E 0%, #FECFEF 20%, #FFF1EB 50%, #e0c3fc 100%);
-            background-attachment: fixed;
+        .highlight {
+            background: linear-gradient(120deg, #ffe4e6 0%, #ffe4e6 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
         }
 
-        /* 隐藏滚动条但保留功能 */
+        /* 隐藏滚动条 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* 右侧内容的玻璃卡片效果 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 1.5rem;
+        /* 图表线条动画 */
+        .chart-line {
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: drawLine 2.5s ease-out forwards;
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
         }
     </style>
 </head>
-<!-- 布局：电脑端左右分屏 (h-screen)，手机端上下滚动 (min-h-screen) -->
-<body class="warm-gradient-bg antialiased md:h-screen md:overflow-hidden flex flex-col md:flex-row">
+<body class="antialiased selection:bg-rose-100 selection:text-rose-900 relative">
 
-    <!-- ================= 左侧：视觉概念 (固定不动) ================= -->
-    <div class="w-full md:w-1/2 h-[40vh] md:h-full relative overflow-hidden group shrink-0">
-        
-        <!-- 返回按钮 -->
-        <a href="index.html" class="absolute top-6 left-6 z-30 flex items-center gap-2 text-xs font-bold text-white bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full transition-all">
-            <span>&larr;</span> Back to Home
-        </a>
+    <!-- 1. 顶部阅读进度条 -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1.5 bg-gradient-to-r from-rose-300/80 via-rose-400/80 to-amber-300/80 backdrop-blur-sm z-[60] transition-all duration-100 ease-out" style="width: 0%"></div>
 
-        <!-- 🔥 修改处：背景图换成了 hedgehog.jpg 🔥 -->
-        <img src="hedgehog.jpg" 
-             alt="Hedgehog walking into sunlight" 
-             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-        
-        <!-- 遮罩层 (稍微调低了浓度，让温暖的刺猬图更透亮一点) -->
-        <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-[1px]"></div>
-        
-        <!-- 底部渐变，保证白色文字清晰可见 -->
-        <div class="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent"></div>
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-sm border-b border-stone-100 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="ui-text text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-2">
+                <span>←</span> Back to Home
+            </a>
+            <span class="ui-text text-xs font-bold tracking-widest text-stone-400 uppercase hidden md:block">Project Review</span>
+        </div>
+    </nav>
 
-        <!-- 左侧文字内容 -->
-        <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white z-20">
-            <div class="mb-4 animate-pulse">
-                <!-- 图标换成微光星 ✨ -->
-                <span class="bg-white/10 backdrop-blur-md border border-amber-200/30 text-amber-100 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase inline-flex items-center gap-2">
-                    ✨ Concept App
-                </span>
+    <!-- 主布局 -->
+    <main class="max-w-6xl mx-auto pt-24 pb-32 grid grid-cols-1 md:grid-cols-12 gap-12 relative">
+
+        <!-- 左侧：悬浮目录 -->
+        <aside class="hidden md:block md:col-span-3 relative">
+            <div class="sticky top-32 pl-6 border-l border-stone-200">
+                <span class="ui-text text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 block">Contents</span>
+                <ul class="space-y-4 ui-text text-sm">
+                    <li><a href="#origin" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="origin">The Origin</a></li>
+                    <li><a href="#solution" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="solution">The Solution</a></li>
+                    <li><a href="#effort" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="effort">The Effort</a></li>
+                    <li><a href="#vision" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="vision">The Vision</a></li>
+                </ul>
             </div>
+        </aside>
+
+        <!-- 右侧：文章主体 -->
+        <article class="col-span-1 md:col-span-8 md:col-start-4 px-6 md:px-0">
             
-            <!-- 名字：微光森林 -->
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-amber-200 drop-shadow-sm">
-                Lumina <br> Forest
-            </h1>
+            <!-- 头部 -->
+            <header class="mb-16">
+                <div class="mb-6">
+                    <span class="ui-text text-xs font-bold text-rose-500 tracking-widest uppercase mb-2 block">Educational Technology & Psychology</span>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight mb-4">
+                        Lumina Forest: <br>In Search of the Sunlit Path
+                    </h1>
+                    <p class="ui-text text-lg md:text-xl text-stone-500 font-light leading-relaxed">
+                        How I am building a digital ecosystem to bridge the systemic gap for struggling students.
+                    </p>
+                </div>
 
-            <!-- 标语：温暖治愈版 -->
-            <p class="text-base md:text-lg font-light text-white/90 leading-relaxed max-w-md border-l-2 border-amber-200/40 pl-6">
-                "The fog is just a season.<br>Keep walking, and the path will appear."
-                <span class="block mt-4 text-sm opacity-70 font-normal italic">
-                    — A watercolor journey finding the sunlit path.
-                </span>
-            </p>
-        </div>
-    </div>
-
-    <!-- ================= 右侧：详细内容 (可滚动) ================= -->
-    <div class="w-full md:w-1/2 h-auto md:h-full overflow-y-auto no-scrollbar relative">
-        <div class="p-6 md:p-12 max-w-2xl mx-auto space-y-12">
-
-            <!-- 1. 理论支持部分 -->
-            <section class="mt-8 md:mt-16">
-                <h2 class="text-xs font-bold text-rose-600 tracking-widest uppercase mb-4">01. Theoretical Basis</h2>
-                <div class="glass-card p-6 md:p-8 shadow-sm">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Attribution Therapy Revisited</h3>
-                    <p class="text-sm text-gray-500 font-medium mb-6">Based on Wilson & Linville (1982)</p>
-                    
-                    <div class="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
-                        <p>
-                            Many college freshmen interpret poor academic performance as a sign of low ability (a stable, internal cause). This mindset leads to a "fog" of helplessness and drop-out risks.
-                        </p>
-                        <p class="font-semibold text-gray-900 border-l-4 border-rose-400 pl-4 bg-rose-50/50 py-2 rounded-r-lg">
-                            "The intervention goal is to shift attributions from stable causes (I am stupid) to unstable causes (I need better methods)."
-                        </p>
-                        <p>
-                            My design applies this psychological mechanism into a gamified narrative, helping students realize that low grades are temporary and modifiable.
-                        </p>
+                <div class="flex items-center gap-3 mb-10 ui-text text-sm border-t border-b border-stone-100 py-4">
+                    <div class="w-8 h-8 rounded-full bg-stone-200 overflow-hidden">
+                        <img src="profile.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Jiayuan+Zhang&background=random'" alt="Author" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <span class="font-bold text-stone-900 block">Jiayuan Zhang</span>
+                        <span class="text-stone-400">Independent Developer & Researcher</span>
                     </div>
                 </div>
-            </section>
 
-            <!-- 2. 功能设计部分 -->
-            <section>
-                <h2 class="text-xs font-bold text-orange-600 tracking-widest uppercase mb-4">02. Core Features</h2>
-                <div class="space-y-6">
+                <figure class="mb-12 rounded-xl overflow-hidden shadow-sm">
+                    <img src="hedgehog.jpg" alt="A hedgehog walking into the light" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
+                    <figcaption class="mt-3 text-center text-xs ui-text text-stone-400 italic">
+                        The visual metaphor: A small hedgehog navigating the fog, finding safety in a soft world.
+                    </figcaption>
+                </figure>
+            </header>
+
+            <!-- 正文 -->
+            <div class="space-y-16 text-lg leading-relaxed text-stone-800">
+
+                <!-- 1. The Origin -->
+                <section id="origin" class="scroll-mt-32">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Origin</h2>
                     
-                    <!-- Feature A: 统计地形图 -->
-                    <div class="glass-card p-6 hover:shadow-md transition-shadow group cursor-default">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
-                                🌲
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Stats as Terrain</h4>
-                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">
-                                    Instead of cold Excel sheets, we use terrain maps. Freshmen footprints start in messy valleys but lead to sunlit peaks. GPA growth is visualized as saplings growing into trees, metaphorically showing that "upward trend is the norm."
-                                </p>
-                            </div>
+                    <p class="mb-8">
+                        My journey into educational technology began with a collapse. For years, I relied entirely on self-discipline, the "good student" who never needed a tutor. But during my freshman year, a family crisis and severe bullying shattered that reality. Without a guide to navigate the rules of the game, I spiraled into helplessness. I interpreted my struggles as a personal defect—telling myself <em class="text-stone-900">I don’t belong here</em>—unaware that I was trapped in what psychologists call an "attribution error," blaming unchangeable traits for temporary setbacks.
+                    </p>
+
+                    <!-- ============ Chart 1: The Systemic Gap ============ -->
+                    <div class="my-12 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                        <div class="ui-text text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 text-center">Bachelor's Degree Attainment by Family Income</div>
+                        <div class="relative w-full aspect-[16/9]">
+                            <svg viewBox="0 0 650 320" class="w-full h-full overflow-visible">
+                                <line x1="50" y1="280" x2="550" y2="280" stroke="#e7e5e4" stroke-width="1" />
+                                <line x1="50" y1="200" x2="550" y2="200" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="4 4" />
+                                <line x1="50" y1="120" x2="550" y2="120" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="4 4" />
+                                <line x1="50" y1="40" x2="550" y2="40" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="4 4" />
+                                <g font-family="Inter" font-size="11" fill="#a8a29e" text-anchor="middle">
+                                    <text x="50" y="300">1970</text>
+                                    <text x="150" y="300">1980</text>
+                                    <text x="250" y="300">1990</text>
+                                    <text x="350" y="300">2000</text>
+                                    <text x="450" y="300">2010</text>
+                                    <text x="550" y="300">2017</text>
+                                </g>
+                                <path d="M50 140 L 90 150 L 130 180 L 170 140 L 210 90 L 250 80 L 290 100 L 330 150 L 370 100 L 410 110 L 450 110 L 510 60 L 550 50" 
+                                      fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line"/>
+                                <circle cx="550" cy="50" r="4" fill="#0ea5e9" />
+                                <path d="M50 220 L 150 210 L 250 190 L 350 180 L 450 160 L 500 140 L 550 110" 
+                                      fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.2s"/>
+                                <circle cx="550" cy="110" r="4" fill="#f59e0b" />
+                                <path d="M50 240 L 150 245 L 250 230 L 350 235 L 450 210 L 550 200" 
+                                      fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.4s"/>
+                                <circle cx="550" cy="200" r="4" fill="#22c55e" />
+                                <path d="M50 260 L 150 255 L 250 265 L 350 260 L 450 250 L 500 240 L 550 230" 
+                                      fill="none" stroke="#db2777" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.6s"/>
+                                <circle cx="550" cy="230" r="4" fill="#db2777" />
+                                <g font-family="Inter" font-size="12" font-weight="bold" text-anchor="start">
+                                    <text x="565" y="55" fill="#0ea5e9">62%</text>
+                                    <text x="565" y="70" fill="#0ea5e9" font-size="10" font-weight="normal">Top Income</text>
+
+                                    <text x="565" y="115" fill="#f59e0b">47%</text>
+                                    <text x="565" y="130" fill="#f59e0b" font-size="10" font-weight="normal">3rd Quartile</text>
+                                    <text x="565" y="205" fill="#22c55e">20%</text>
+                                    <text x="565" y="220" fill="#22c55e" font-size="10" font-weight="normal">2nd Quartile</text>
+                                    <text x="565" y="235" fill="#db2777">13%</text>
+                                    <text x="565" y="250" fill="#db2777" font-size="10" font-weight="normal">Low Income</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="mt-2 pt-4 border-t border-stone-200 flex justify-between items-center text-xs ui-text text-stone-500">
+                            <span>The Systemic Gap (Bachelor's attainment by age 24)</span>
+                            <span class="italic">Source: The Pell Institute</span>
                         </div>
                     </div>
 
-                    <!-- Feature B: 林间回响 (视频) -->
-                    <div class="glass-card p-6 hover:shadow-md transition-shadow group cursor-default">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
-                                🔥
+                    <p class="mb-6">
+                        I soon realized this wasn't just my story; it was a systemic failure. Statistics show that first-generation and low-income students drop out at significantly higher rates, not due to a lack of intelligence, but a lack of support. While wealthier peers often rely on "invisible mentors" and safety nets, students like me are running the race blindfolded. We internalize structural gaps as personal failures.
+                    </p>
+
+                    <p class="mb-8">
+                        The turning point came when I discovered Josh Waitzkin’s <em class="italic">The Art of Learning</em> and a pivotal 1982 paper by Wilson and Linville. They proved that resilience is a learned skill and that shifting a student’s narrative from stable causes ("I am stupid") to unstable ones ("I need a better method") leads to tangible academic improvement. Realizing that a simple psychological shift could have saved me, I decided that if the system wouldn’t provide a safety net, I would build one.
+                    </p>
+
+                    <!-- ============ 拼图区域 (Book + Paper) ============ -->
+                    <div class="my-12 w-full h-64 md:h-80 rounded-xl overflow-hidden border border-stone-200 flex shadow-sm">
+                        <!-- Left: Book Image (User needs 'book.jpg') -->
+                        <div class="w-[40%] h-full relative border-r border-stone-200 bg-stone-100">
+                            <img src="book.jpg" alt="The Art of Learning" class="absolute inset-0 w-full h-full object-cover transition-all duration-500 hover:scale-105"
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full text-center p-4 text-xs font-bold text-stone-400\'>The Art of Learning<br>(Image Needed)</div>'">
+                        </div>
+                        
+                        <!-- Right: Auto-generated Paper Chart -->
+                        <div class="w-[60%] h-full relative bg-[#f7f5f3] p-6 flex flex-col justify-center">
+                            <div class="ui-text text-[10px] md:text-xs font-bold text-stone-500 mb-4 tracking-widest border-b border-stone-300 pb-2">
+                                RESULTS: DROP-OUT RATES (1 YEAR)
                             </div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Forest Echoes (Interviews)</h4>
-                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">
-                                    Video interviews with seniors are packaged as "memory magic" bubbles by the campfire. They don't preach; they share their own freshman failures, validating that "everyone gets lost sometimes."
-                                </p>
+                            
+                            <!-- Academic Bar Chart (SVG) -->
+                            <div class="flex-1 w-full relative">
+                                <svg viewBox="0 0 300 150" class="w-full h-full overflow-visible">
+                                    <line x1="30" y1="130" x2="30" y2="10" stroke="#78716c" stroke-width="1" />
+                                    <line x1="30" y1="130" x2="280" y2="130" stroke="#78716c" stroke-width="1" />
+                                    <text x="25" y="130" font-family="serif" font-size="10" fill="#57534e" text-anchor="end">0%</text>
+                                    <text x="25" y="80" font-family="serif" font-size="10" fill="#57534e" text-anchor="end">15%</text>
+                                    <text x="25" y="30" font-family="serif" font-size="10" fill="#57534e" text-anchor="end">30%</text>
+                                    <g class="group">
+                                        <rect x="60" y="46" width="60" height="84" fill="#a8a29e" />
+                                        <text x="90" y="145" font-family="serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="bold">Control</text>
+                                        <text x="90" y="40" font-family="serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="bold">25%</text>
+                                    </g>
+                                    <g class="group">
+                                        <defs>
+                                            <pattern id="diagonalHatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                                                <rect width="2" height="4" transform="translate(0,0)" fill="#44403c"></rect>
+                                            </pattern>
+                                        </defs>
+                                        <rect x="160" y="113" width="60" height="17" fill="url(#diagonalHatch)" stroke="#44403c" />
+                                        <text x="190" y="145" font-family="serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="bold">Intervention</text>
+                                        <text x="190" y="105" font-family="serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="bold">5%</text>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="text-[9px] text-stone-400 mt-2 font-serif italic text-right">
+                                Fig 1. Percentage of students leaving college by end of freshman year.<br>
+                                (Wilson & Linville, 1982)
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Feature C: 背包归因 (核心) -->
-                    <div class="glass-card p-6 border-rose-100 hover:border-rose-300 transition-colors group cursor-default relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-rose-50 rounded-bl-full -mr-10 -mt-10 z-0"></div>
-                        <div class="flex items-start gap-4 relative z-10">
-                            <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
-                                🎒
+                <!-- 2. The Solution (NEW Z-LAYOUT) -->
+                <section id="solution" class="scroll-mt-32">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Solution</h2>
+                    <p class="mb-20 text-lg text-stone-600 leading-relaxed">
+                        I am building <strong>Lumina Forest</strong>, a psychological intervention app disguised as a gentle journey. To lower defense mechanisms, the app avoids cold data, instead using a warm watercolor aesthetic where the user plays as a hedgehog finding its way.
+                    </p>
+
+                    <div class="space-y-24">
+                        
+                        <!-- Feature 01: Text Left, Image Right -->
+                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                            <div class="w-full md:w-1/2 order-2 md:order-1">
+                                <div class="bg-white p-6 md:p-8 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                                    <div class="ui-text text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">Feature 01</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-4">Stats as Terrain</h3>
+                                    <p class="text-stone-600 leading-relaxed mb-4">
+                                        Instead of cold Excel sheets, we use terrain maps. Freshmen footprints start in messy valleys but lead to sunlit peaks.
+                                    </p>
+                                    <p class="text-stone-600 leading-relaxed italic pl-4 border-l-2 border-emerald-200">
+                                        GPA growth is visualized as saplings growing into trees, metaphorically showing that "upward trend is the norm."
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Sorting the Backpack</h4>
-                                <p class="text-xs text-rose-500 font-bold mb-2 uppercase tracking-wide">Reason Analysis Intervention</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">
-                                    Users classify their worries.
-                                    <br>
-                                    <span class="block mt-2">
-                                        🪨 <strong>Rocks (Stable):</strong> "I'm not smart enough." (The hedgehog gently rejects this burden).
-                                    </span>
-                                    <span class="block mt-1">
-                                        🌱 <strong>Seeds (Unstable/Controllable):</strong> "I haven't found the method yet." (Planting these makes flowers bloom).
-                                    </span>
-                                </p>
+                            <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
+                                <div class="relative w-4/5 md:w-4/5 mx-auto">
+                                    <div class="absolute inset-0 bg-stone-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
+                                    <!-- 使用 feature-stats.jpg -->
+                                    <img src="feature-stats.jpg" alt="Stats as terrain" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Feature 02: Image Left, Text Right -->
+                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                            <div class="w-full md:w-1/2 flex justify-center">
+                                <div class="relative w-4/5 md:w-4/5 mx-auto">
+                                    <div class="absolute inset-0 bg-stone-200 transform -translate-x-3 translate-y-3 rounded-xl"></div>
+                                    <!-- 使用 feature-echoes.jpg -->
+                                    <img src="feature-echoes.jpg" alt="Campfire scene" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <div class="bg-white p-6 md:p-8 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                                    <div class="ui-text text-xs font-bold text-amber-600 uppercase tracking-widest mb-3">Feature 02</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-4">Forest Echoes</h3>
+                                    <p class="text-stone-600 leading-relaxed mb-4">
+                                        Video interviews with seniors are packaged as "memory magic" bubbles by the campfire.
+                                    </p>
+                                    <p class="text-stone-600 leading-relaxed">
+                                        They don't preach; they share their own freshman failures. Seeing these "ghosts" validates that <span class="bg-amber-100/60 px-1 rounded">"everyone gets lost sometimes."</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Core Mechanism: Text Left, Image Right -->
+                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                            <div class="w-full md:w-1/2 order-2 md:order-1">
+                                <div class="bg-rose-50 p-6 md:p-8 rounded-2xl border border-rose-100 relative overflow-hidden">
+                                    <div class="relative z-10">
+                                        <div class="ui-text text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Core Mechanism</div>
+                                        <h3 class="text-2xl font-bold text-stone-900 mb-4">Sorting the Backpack</h3>
+                                        <p class="text-stone-700 leading-relaxed mb-6">
+                                            This is the Reason Analysis Intervention. Users classify their worries based on what they can control:
+                                        </p>
+                                        <ul class="space-y-4 text-sm text-stone-800">
+                                            <li class="flex items-start gap-3 bg-white/60 p-3 rounded-lg backdrop-blur-sm border border-rose-100/50">
+                                                <span class="text-xl mt-0.5">🪨</span>
+                                                <span><strong>Rocks (Stable):</strong> "I'm not smart enough." The hedgehog gently rejects this burden.</span>
+                                            </li>
+                                            <li class="flex items-start gap-3 bg-white/60 p-3 rounded-lg backdrop-blur-sm border border-rose-100/50">
+                                                <span class="text-xl mt-0.5">🌱</span>
+                                                <span><strong>Seeds (Unstable):</strong> "I haven't found the method yet." Planting these makes flowers bloom.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
+                                <div class="relative w-4/5 md:w-4/5 mx-auto">
+                                    <div class="absolute inset-0 bg-stone-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
+                                    <!-- 使用 feature-backpack.jpg -->
+                                    <img src="feature-backpack.jpg" alt="Backpack interface" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                </section>
+                
+                <!-- 3. The Effort -->
+                <section id="effort" class="scroll-mt-32 pt-16 border-t border-stone-100">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Effort</h2>
+                    <div class="prose prose-stone max-w-none text-lg leading-relaxed text-stone-700">
+                        <p class="mb-6">
+                            I used to regret my undergraduate major in Architecture, believing those years were wasted time, but I was wrong. Building software is remarkably similar to designing a building: you start by analyzing human needs, sketch spatial relations, and finally construct the structure. I realized that as the sole designer and engineer of this project, I am simply applying my architectural training to build a digital shelter instead of a physical one. However, executing this vision alone meant teaching myself the entire technology stack, from front-end frameworks to database logic.
+                        </p>
+                        <p>
+                            There were moments during development when I felt the same overwhelming fog I experienced as a freshman—when the code broke or the design felt flat. But this time, I had the tools to help myself. I treated my lack of technical knowledge not as a <strong class="text-stone-900 bg-stone-200 px-1 rounded">"Rock"</strong> (a permanent inability), but as a <strong class="text-stone-900 bg-emerald-100 px-1 rounded">"Seed"</strong> (something I hadn't learned yet). The iterative process of debugging and refining became a mirror of the app’s own philosophy: resilience is built through method, not magic.
+                        </p>
+                    </div>
+                </section>
 
-                </div>
-            </section>
+                <!-- 4. The Vision -->
+                <section id="vision" class="scroll-mt-32 pt-16 border-t border-stone-100">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Vision</h2>
+                    <div class="text-lg leading-relaxed text-stone-700">
+                        <p class="mb-6">
+                            My ultimate goal is not just to build an app, but to create a scalable infrastructure for hope. Countless students cannot afford professional therapy or lack parents who understand the university system, leaving them stuck in the fog of attribution error. <strong class="text-stone-900">Lumina Forest is built for them.</strong> As Wilson and Linville’s research demonstrated, a brief intervention that shifts a student's perspective can have a profound "long-term effect," changing their entire academic trajectory and graduation rate.
+                        </p>
+                        <p class="mb-8">
+                            By making this tool accessible, I want to democratize psychological support so that for students from difficult backgrounds, a bad semester remains just a bad semester, not a life sentence. As the app’s closing screen reminds us:
+                        </p>
+                        
+                        <!-- 样式化引用 -->
+                        <blockquote class="border-l-4 border-rose-300 pl-6 italic text-xl text-stone-500 my-10 bg-stone-50 py-6 pr-4 rounded-r-lg shadow-sm">
+                            "Grades are just temporary weather, not your final destination."
+                        </blockquote>
 
-            <!-- 3. 结语 -->
-            <div class="pb-16 pt-8 text-center">
-                <p class="text-2xl font-serif italic text-gray-400">
-                    "Grades are just temporary weather, <br> not your final destination."
-                </p>
-                <div class="w-16 h-1 bg-gradient-to-r from-rose-200 to-orange-200 mx-auto mt-6 rounded-full"></div>
+                        <p class="text-xl font-bold text-stone-900 mt-8">
+                            The wind is rising, and we have a path to clear.
+                        </p>
+                    </div>
+                </section>
+
             </div>
-
-        </div>
-    </div>
-
+        </article>
+    </main>
+    
+    <script>
+        //简单的滚动进度条脚本
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+    </script>
 </body>
 </html>

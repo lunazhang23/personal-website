@@ -6,17 +6,23 @@
     <title>Lumina Forest | In Search of the Sunlit Path</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Merriweather', serif; background-color: #ffffff; color: #1c1917; }
-        h1, h2, h3, .ui-text { font-family: 'Inter', sans-serif; }
-        
-        .highlight {
-            background: linear-gradient(120deg, #ffe4e6 0%, #ffe4e6 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        rose: { 50: '#fff1f2', 100: '#ffe4e6', 400: '#fb7185', 500: '#f43f5e', 900: '#881337' },
+                        stone: { 50: '#fafaf9', 100: '#f5f5f4', 800: '#292524', 900: '#1c1917' }
+                    }
+                }
+            }
         }
-
+    </script>
+    <style>
         /* 隐藏滚动条 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -30,86 +36,166 @@
         @keyframes drawLine {
             to { stroke-dashoffset: 0; }
         }
+
+        /* 轮播图过渡效果 */
+        #carousel-track {
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* 装饰性背景光晕 */
+        .blob-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-rose-100 selection:text-rose-900 relative">
+<body class="antialiased selection:bg-rose-100 selection:text-rose-900 bg-[#fdfcfc] text-stone-800 relative overflow-x-hidden">
+
+    <!-- 背景装饰 -->
+    <div class="blob-bg w-96 h-96 bg-rose-200/50 top-[-100px] left-[-100px]"></div>
+    <div class="blob-bg w-[500px] h-[500px] bg-amber-100/60 top-[10%] right-[-150px]"></div>
 
     <!-- 1. 顶部阅读进度条 -->
-    <div id="progress-bar" class="fixed top-0 left-0 h-1.5 bg-gradient-to-r from-rose-300/80 via-rose-400/80 to-amber-300/80 backdrop-blur-sm z-[60] transition-all duration-100 ease-out" style="width: 0%"></div>
+    <div id="progress-bar" class="fixed top-0 left-0 h-1.5 bg-gradient-to-r from-rose-400 via-rose-500 to-amber-400 z-[70] transition-all duration-100 ease-out" style="width: 0%"></div>
 
     <!-- 导航栏 -->
-    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-sm border-b border-stone-100 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="index.html" class="ui-text text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-2">
-                <span>←</span> Back to Home
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-stone-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="font-sans text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-2 group">
+                <span class="group-hover:-translate-x-1 transition-transform">←</span> Back to Home
             </a>
-            <span class="ui-text text-xs font-bold tracking-widest text-stone-400 uppercase hidden md:block">Project Review</span>
+            <span class="font-sans text-xs font-bold tracking-widest text-stone-400 uppercase hidden md:block">Project Review</span>
         </div>
     </nav>
 
-    <!-- 主布局 -->
-    <main class="max-w-6xl mx-auto pt-24 pb-32 grid grid-cols-1 md:grid-cols-12 gap-12 relative">
+    <!-- ========================================== -->
+    <!-- HERO SECTION (新设计：左文右图) -->
+    <!-- ========================================== -->
+    <header class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- 左侧：文字介绍 -->
+            <div class="lg:col-span-5 flex flex-col justify-center relative z-10">
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <span class="h-px w-8 bg-rose-400"></span>
+                    <span class="font-sans text-xs font-bold text-rose-500 tracking-widest uppercase">EdTech & Psychology</span>
+                </div>
+                
+                <h1 class="font-sans text-5xl lg:text-6xl font-extrabold text-stone-900 leading-[1.1] mb-6 tracking-tight">
+                    Lumina Forest: <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-stone-800 to-stone-500">The Sunlit Path</span>
+                </h1>
+                
+                <p class="font-serif text-lg lg:text-xl text-stone-600 font-light leading-relaxed mb-10 max-w-lg">
+                    How I am building a digital ecosystem to bridge the systemic gap for struggling students through psychological intervention.
+                </p>
+
+                <!-- 作者信息 -->
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-stone-100 w-fit shadow-sm">
+                    <div class="w-12 h-12 rounded-full bg-stone-200 overflow-hidden ring-2 ring-white shadow-md">
+                        <img src="https://ui-avatars.com/api/?name=Jiayuan+Zhang&background=f43f5e&color=fff" alt="Author" class="w-full h-full object-cover">
+                    </div>
+                    <div class="font-sans">
+                        <span class="font-bold text-stone-900 block text-sm">Jiayuan Zhang</span>
+                        <span class="text-stone-400 text-xs uppercase tracking-wide">Independent Researcher</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：轮播图展示 -->
+            <div class="lg:col-span-7 relative h-full flex justify-center lg:justify-end">
+                <!-- 装饰性背景框 -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-white/40 to-white/10 rounded-[3rem] -rotate-1 scale-105 z-0 border border-white/20"></div>
+
+                <!-- 轮播图主卡片 -->
+                <div class="relative w-full max-w-md lg:max-w-lg aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border border-stone-100 group z-10">
+                    
+                    <!-- 轮播轨道 -->
+                    <div class="relative w-full h-full overflow-hidden bg-stone-50">
+                        <div id="carousel-track" class="flex h-full w-full">
+                            <!-- Slide 1 -->
+                            <div class="w-full h-full flex-shrink-0 relative flex justify-center items-center p-8">
+                                <img src="hero-1.png" onerror="this.src='https://placehold.co/600x1200/f5f5f4/a8a29e?text=1.+Home+Screen'" class="h-full w-full object-contain drop-shadow-lg rounded-lg">
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="w-full h-full flex-shrink-0 relative flex justify-center items-center p-8">
+                                <img src="hero-2.png" onerror="this.src='https://placehold.co/600x1200/f5f5f4/a8a29e?text=2.+Stats+View'" class="h-full w-full object-contain drop-shadow-lg rounded-lg">
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="w-full h-full flex-shrink-0 relative flex justify-center items-center p-8">
+                                <img src="hero-3.png" onerror="this.src='https://placehold.co/600x1200/f5f5f4/a8a29e?text=3.+Journey+Map'" class="h-full w-full object-contain drop-shadow-lg rounded-lg">
+                            </div>
+                            <!-- Slide 4 -->
+                            <div class="w-full h-full flex-shrink-0 relative flex justify-center items-center p-8">
+                                <img src="hero-4.png" onerror="this.src='https://placehold.co/600x1200/f5f5f4/a8a29e?text=4.+Insights'" class="h-full w-full object-contain drop-shadow-lg rounded-lg">
+                            </div>
+                        </div>
+
+                        <!-- 覆盖层：底部渐变 -->
+                        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-stone-900/10 to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <!-- 左右按钮 -->
+                    <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white backdrop-blur-md rounded-full shadow-lg text-stone-600 hover:scale-105 transition-all duration-300 z-20 flex items-center justify-center border border-white opacity-0 group-hover:opacity-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                    </button>
+                    <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white backdrop-blur-md rounded-full shadow-lg text-stone-600 hover:scale-105 transition-all duration-300 z-20 flex items-center justify-center border border-white opacity-0 group-hover:opacity-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    </button>
+
+                    <!-- 指示点 -->
+                    <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
+                        <button class="dot w-2 h-2 rounded-full bg-stone-400/50 hover:bg-rose-500 transition-all duration-300 ring-1 ring-white/50" data-index="0"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-stone-400/50 hover:bg-rose-500 transition-all duration-300 ring-1 ring-white/50" data-index="1"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-stone-400/50 hover:bg-rose-500 transition-all duration-300 ring-1 ring-white/50" data-index="2"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-stone-400/50 hover:bg-rose-500 transition-all duration-300 ring-1 ring-white/50" data-index="3"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================== -->
+    <main class="max-w-6xl mx-auto pb-32 grid grid-cols-1 md:grid-cols-12 gap-12 relative px-6 md:px-0">
 
         <!-- 左侧：悬浮目录 -->
         <aside class="hidden md:block md:col-span-3 relative">
-            <div class="sticky top-32 pl-6 border-l border-stone-200">
-                <span class="ui-text text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 block">Contents</span>
-                <ul class="space-y-4 ui-text text-sm">
-                    <li><a href="#origin" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="origin">The Origin</a></li>
-                    <li><a href="#solution" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="solution">The Solution</a></li>
-                    <li><a href="#effort" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="effort">The Effort</a></li>
-                    <li><a href="#vision" class="toc-link block text-stone-400 hover:text-stone-900 transition-colors duration-300" data-target="vision">The Vision</a></li>
+            <div class="sticky top-32 pl-6 border-l-2 border-stone-100">
+                <span class="font-sans text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 block">Contents</span>
+                <ul class="space-y-4 font-sans text-sm">
+                    <li><a href="#origin" class="toc-link block text-stone-400 hover:text-rose-500 transition-colors duration-300" data-target="origin">The Origin</a></li>
+                    <li><a href="#solution" class="toc-link block text-stone-400 hover:text-rose-500 transition-colors duration-300" data-target="solution">The Solution</a></li>
+                    <li><a href="#effort" class="toc-link block text-stone-400 hover:text-rose-500 transition-colors duration-300" data-target="effort">The Effort</a></li>
+                    <li><a href="#vision" class="toc-link block text-stone-400 hover:text-rose-500 transition-colors duration-300" data-target="vision">The Vision</a></li>
                 </ul>
             </div>
         </aside>
 
         <!-- 右侧：文章主体 -->
-        <article class="col-span-1 md:col-span-8 md:col-start-4 px-6 md:px-0">
+        <article class="col-span-1 md:col-span-8 md:col-start-4">
             
-            <!-- 头部 -->
-            <header class="mb-16">
-                <div class="mb-6">
-                    <span class="ui-text text-xs font-bold text-rose-500 tracking-widest uppercase mb-2 block">Educational Technology & Psychology</span>
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight mb-4">
-                        Lumina Forest: <br>In Search of the Sunlit Path
-                    </h1>
-                    <p class="ui-text text-lg md:text-xl text-stone-500 font-light leading-relaxed">
-                        How I am building a digital ecosystem to bridge the systemic gap for struggling students.
-                    </p>
-                </div>
+            <div class="space-y-16 text-lg leading-relaxed text-stone-800 font-serif">
 
-                <div class="flex items-center gap-3 mb-10 ui-text text-sm border-t border-b border-stone-100 py-4">
-                    <div class="w-8 h-8 rounded-full bg-stone-200 overflow-hidden">
-                        <img src="profile.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Jiayuan+Zhang&background=random'" alt="Author" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <span class="font-bold text-stone-900 block">Jiayuan Zhang</span>
-                        <span class="text-stone-400">Independent Developer & Researcher</span>
-                    </div>
-                </div>
-
-                <figure class="mb-12 rounded-xl overflow-hidden shadow-sm">
-                    <img src="hedgehog.jpg" alt="A hedgehog walking into the light" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
-                    <figcaption class="mt-3 text-center text-xs ui-text text-stone-400 italic">
-                        The visual metaphor: A small hedgehog navigating the fog, finding safety in a soft world.
-                    </figcaption>
-                </figure>
-            </header>
-
-            <!-- 正文 -->
-            <div class="space-y-16 text-lg leading-relaxed text-stone-800">
-
-                <!-- 1. The Origin -->
+                <!-- 1. The Origin (保持原样) -->
                 <section id="origin" class="scroll-mt-32">
-                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Origin</h2>
+                    <h2 class="font-sans text-2xl font-bold text-stone-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-bold">01</span>
+                        The Origin
+                    </h2>
                     
                     <p class="mb-8">
-                        My journey into educational technology began with a collapse. For years, I relied entirely on self-discipline, the "good student" who never needed a tutor. But during my freshman year, a family crisis and severe bullying shattered that reality. Without a guide to navigate the rules of the game, I spiraled into helplessness. I interpreted my struggles as a personal defect—telling myself <em class="text-stone-900">I don’t belong here</em>—unaware that I was trapped in what psychologists call an "attribution error," blaming unchangeable traits for temporary setbacks.
+                        My journey into educational technology began with a collapse. For years, I relied entirely on self-discipline, the "good student" who never needed a tutor. But during my freshman year, a family crisis and severe bullying shattered that reality. Without a guide to navigate the rules of the game, I spiraled into helplessness. I interpreted my struggles as a personal defect—telling myself <em class="text-stone-900 bg-amber-100 px-1 rounded">I don’t belong here</em>—unaware that I was trapped in what psychologists call an "attribution error," blaming unchangeable traits for temporary setbacks.
                     </p>
 
-                    <!-- ============ Chart 1: The Systemic Gap ============ -->
-                    <div class="my-12 bg-stone-50 rounded-xl p-6 border border-stone-100">
-                        <div class="ui-text text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 text-center">Bachelor's Degree Attainment by Family Income</div>
+                    <!-- Chart: The Systemic Gap -->
+                    <div class="my-12 bg-white rounded-2xl p-6 md:p-8 shadow-lg shadow-stone-200/50 border border-stone-100">
+                        <div class="font-sans text-xs font-bold text-stone-400 uppercase tracking-widest mb-6 text-center">Bachelor's Degree Attainment by Family Income</div>
                         <div class="relative w-full aspect-[16/9]">
                             <svg viewBox="0 0 650 320" class="w-full h-full overflow-visible">
                                 <line x1="50" y1="280" x2="550" y2="280" stroke="#e7e5e4" stroke-width="1" />
@@ -124,22 +210,17 @@
                                     <text x="450" y="300">2010</text>
                                     <text x="550" y="300">2017</text>
                                 </g>
-                                <path d="M50 140 L 90 150 L 130 180 L 170 140 L 210 90 L 250 80 L 290 100 L 330 150 L 370 100 L 410 110 L 450 110 L 510 60 L 550 50" 
-                                      fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line"/>
+                                <path d="M50 140 L 90 150 L 130 180 L 170 140 L 210 90 L 250 80 L 290 100 L 330 150 L 370 100 L 410 110 L 450 110 L 510 60 L 550 50" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line"/>
                                 <circle cx="550" cy="50" r="4" fill="#0ea5e9" />
-                                <path d="M50 220 L 150 210 L 250 190 L 350 180 L 450 160 L 500 140 L 550 110" 
-                                      fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.2s"/>
+                                <path d="M50 220 L 150 210 L 250 190 L 350 180 L 450 160 L 500 140 L 550 110" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.2s"/>
                                 <circle cx="550" cy="110" r="4" fill="#f59e0b" />
-                                <path d="M50 240 L 150 245 L 250 230 L 350 235 L 450 210 L 550 200" 
-                                      fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.4s"/>
+                                <path d="M50 240 L 150 245 L 250 230 L 350 235 L 450 210 L 550 200" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.4s"/>
                                 <circle cx="550" cy="200" r="4" fill="#22c55e" />
-                                <path d="M50 260 L 150 255 L 250 265 L 350 260 L 450 250 L 500 240 L 550 230" 
-                                      fill="none" stroke="#db2777" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.6s"/>
+                                <path d="M50 260 L 150 255 L 250 265 L 350 260 L 450 250 L 500 240 L 550 230" fill="none" stroke="#db2777" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" style="animation-delay: 0.6s"/>
                                 <circle cx="550" cy="230" r="4" fill="#db2777" />
                                 <g font-family="Inter" font-size="12" font-weight="bold" text-anchor="start">
                                     <text x="565" y="55" fill="#0ea5e9">62%</text>
                                     <text x="565" y="70" fill="#0ea5e9" font-size="10" font-weight="normal">Top Income</text>
-
                                     <text x="565" y="115" fill="#f59e0b">47%</text>
                                     <text x="565" y="130" fill="#f59e0b" font-size="10" font-weight="normal">3rd Quartile</text>
                                     <text x="565" y="205" fill="#22c55e">20%</text>
@@ -149,7 +230,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <div class="mt-2 pt-4 border-t border-stone-200 flex justify-between items-center text-xs ui-text text-stone-500">
+                        <div class="mt-4 pt-4 border-t border-stone-100 flex justify-between items-center text-xs font-sans text-stone-400">
                             <span>The Systemic Gap (Bachelor's attainment by age 24)</span>
                             <span class="italic">Source: The Pell Institute</span>
                         </div>
@@ -163,9 +244,9 @@
                         The turning point came when I discovered Josh Waitzkin’s <em class="italic">The Art of Learning</em> and a pivotal 1982 paper by Wilson and Linville. They proved that resilience is a learned skill and that shifting a student’s narrative from stable causes ("I am stupid") to unstable ones ("I need a better method") leads to tangible academic improvement. Realizing that a simple psychological shift could have saved me, I decided that if the system wouldn’t provide a safety net, I would build one.
                     </p>
 
-                    <!-- ============ 拼图区域 (Book + Paper) ============ -->
+                    <!-- Puzzle: Book + Paper -->
                     <div class="my-12 w-full h-64 md:h-80 rounded-xl overflow-hidden border border-stone-200 flex shadow-sm">
-                        <!-- Left: Book Image (User needs 'book.jpg') -->
+                        <!-- Left: Book Image -->
                         <div class="w-[40%] h-full relative border-r border-stone-200 bg-stone-100">
                             <img src="book.jpg" alt="The Art of Learning" class="absolute inset-0 w-full h-full object-cover transition-all duration-500 hover:scale-105"
                                  onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full text-center p-4 text-xs font-bold text-stone-400\'>The Art of Learning<br>(Image Needed)</div>'">
@@ -173,7 +254,7 @@
                         
                         <!-- Right: Auto-generated Paper Chart -->
                         <div class="w-[60%] h-full relative bg-[#f7f5f3] p-6 flex flex-col justify-center">
-                            <div class="ui-text text-[10px] md:text-xs font-bold text-stone-500 mb-4 tracking-widest border-b border-stone-300 pb-2">
+                            <div class="font-sans text-[10px] md:text-xs font-bold text-stone-500 mb-4 tracking-widest border-b border-stone-300 pb-2">
                                 RESULTS: DROP-OUT RATES (1 YEAR)
                             </div>
                             
@@ -210,20 +291,24 @@
                     </div>
                 </section>
 
-                <!-- 2. The Solution (NEW Z-LAYOUT) -->
+                <!-- 2. The Solution (顺序: Stats -> Echoes -> Backpack) -->
                 <section id="solution" class="scroll-mt-32">
-                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Solution</h2>
+                    <h2 class="font-sans text-2xl font-bold text-stone-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-bold">02</span>
+                        The Solution
+                    </h2>
+                    
                     <p class="mb-20 text-lg text-stone-600 leading-relaxed">
                         I am building <strong>Lumina Forest</strong>, a psychological intervention app disguised as a gentle journey. To lower defense mechanisms, the app avoids cold data, instead using a warm watercolor aesthetic where the user plays as a hedgehog finding its way.
                     </p>
 
                     <div class="space-y-24">
                         
-                        <!-- Feature 01: Text Left, Image Right -->
+                        <!-- 1. Feature 01: Stats as Terrain (保留原设计：左文右图) -->
                         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
                             <div class="w-full md:w-1/2 order-2 md:order-1">
                                 <div class="bg-white p-6 md:p-8 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-                                    <div class="ui-text text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">Feature 01</div>
+                                    <div class="font-sans text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">Feature 01</div>
                                     <h3 class="text-2xl font-bold text-stone-900 mb-4">Stats as Terrain</h3>
                                     <p class="text-stone-600 leading-relaxed mb-4">
                                         Instead of cold Excel sheets, we use terrain maps. Freshmen footprints start in messy valleys but lead to sunlit peaks.
@@ -236,117 +321,198 @@
                             <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
                                 <div class="relative w-4/5 md:w-4/5 mx-auto">
                                     <div class="absolute inset-0 bg-stone-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
-                                    <!-- 使用 feature-stats.jpg -->
+                                    <!-- Image: feature-stats.jpg -->
                                     <img src="feature-stats.jpg" alt="Stats as terrain" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform -rotate-1 hover:rotate-0 transition-transform duration-500">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Feature 02: Image Left, Text Right -->
+                        <!-- 2. Feature 02: Forest Echoes (左图 feature-echoes.jpg，右文) -->
                         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
                             <div class="w-full md:w-1/2 flex justify-center">
                                 <div class="relative w-4/5 md:w-4/5 mx-auto">
                                     <div class="absolute inset-0 bg-stone-200 transform -translate-x-3 translate-y-3 rounded-xl"></div>
-                                    <!-- 使用 feature-echoes.jpg -->
+                                    <!-- Image: feature-echoes.jpg -->
                                     <img src="feature-echoes.jpg" alt="Campfire scene" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform rotate-1 hover:rotate-0 transition-transform duration-500">
                                 </div>
                             </div>
                             <div class="w-full md:w-1/2">
                                 <div class="bg-white p-6 md:p-8 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-                                    <div class="ui-text text-xs font-bold text-amber-600 uppercase tracking-widest mb-3">Feature 02</div>
+                                    <div class="font-sans text-xs font-bold text-amber-500 uppercase tracking-widest mb-3">Feature 02</div>
                                     <h3 class="text-2xl font-bold text-stone-900 mb-4">Forest Echoes</h3>
                                     <p class="text-stone-600 leading-relaxed mb-4">
                                         Video interviews with seniors are packaged as "memory magic" bubbles by the campfire.
                                     </p>
                                     <p class="text-stone-600 leading-relaxed">
-                                        They don't preach; they share their own freshman failures. Seeing these "ghosts" validates that <span class="bg-amber-100/60 px-1 rounded">"everyone gets lost sometimes."</span>
+                                        They don't preach; they share their own freshman failures. Seeing these "ghosts" validates that <span class="bg-amber-100 px-1">"everyone gets lost sometimes."</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Core Mechanism: Text Left, Image Right -->
+                        <!-- 3. Feature 03: Sorting the Backpack (左粉色卡片，右图 feature-backpack.jpg) -->
                         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
                             <div class="w-full md:w-1/2 order-2 md:order-1">
-                                <div class="bg-rose-50 p-6 md:p-8 rounded-2xl border border-rose-100 relative overflow-hidden">
-                                    <div class="relative z-10">
-                                        <div class="ui-text text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Core Mechanism</div>
-                                        <h3 class="text-2xl font-bold text-stone-900 mb-4">Sorting the Backpack</h3>
-                                        <p class="text-stone-700 leading-relaxed mb-6">
-                                            This is the Reason Analysis Intervention. Users classify their worries based on what they can control:
-                                        </p>
-                                        <ul class="space-y-4 text-sm text-stone-800">
-                                            <li class="flex items-start gap-3 bg-white/60 p-3 rounded-lg backdrop-blur-sm border border-rose-100/50">
-                                                <span class="text-xl mt-0.5">🪨</span>
-                                                <span><strong>Rocks (Stable):</strong> "I'm not smart enough." The hedgehog gently rejects this burden.</span>
-                                            </li>
-                                            <li class="flex items-start gap-3 bg-white/60 p-3 rounded-lg backdrop-blur-sm border border-rose-100/50">
-                                                <span class="text-xl mt-0.5">🌱</span>
-                                                <span><strong>Seeds (Unstable):</strong> "I haven't found the method yet." Planting these makes flowers bloom.</span>
-                                            </li>
-                                        </ul>
+                                <!-- Pink Card Background -->
+                                <div class="bg-rose-50 p-6 md:p-8 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                                    <div class="font-sans text-xs font-bold text-rose-500 uppercase tracking-widest mb-3">Core Mechanism</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-4">Sorting the Backpack</h3>
+                                    <p class="text-stone-700 leading-relaxed mb-6">
+                                        This is the Reason Analysis Intervention. Users classify their worries based on what they can control:
+                                    </p>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="flex gap-3 items-start bg-white/60 p-3 rounded-lg">
+                                            <span class="text-xl">🪨</span>
+                                            <p class="text-sm text-stone-600"><strong>Rocks (Stable):</strong> "I'm not smart enough." The hedgehog gently rejects this burden.</p>
+                                        </div>
+                                        <div class="flex gap-3 items-start bg-white/60 p-3 rounded-lg">
+                                            <span class="text-xl">🌱</span>
+                                            <p class="text-sm text-stone-600"><strong>Seeds (Unstable):</strong> "I haven't found the method yet." Planting these makes flowers bloom.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="w-full md:w-1/2 flex justify-center order-1 md:order-2">
                                 <div class="relative w-4/5 md:w-4/5 mx-auto">
-                                    <div class="absolute inset-0 bg-stone-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
-                                    <!-- 使用 feature-backpack.jpg -->
-                                    <img src="feature-backpack.jpg" alt="Backpack interface" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-rose-100 transform translate-x-3 translate-y-3 rounded-xl"></div>
+                                    <!-- Image: feature-backpack.jpg -->
+                                    <img src="feature-backpack.jpg" alt="Hedgehog with backpack" class="relative z-10 w-full h-auto rounded-xl shadow-lg transform -rotate-1 hover:rotate-0 transition-transform duration-500">
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </section>
-                
-                <!-- 3. The Effort -->
+
+                <!-- 3. The Effort (恢复长文) -->
                 <section id="effort" class="scroll-mt-32 pt-16 border-t border-stone-100">
-                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Effort</h2>
-                    <div class="prose prose-stone max-w-none text-lg leading-relaxed text-stone-700">
-                        <p class="mb-6">
-                            I used to regret my undergraduate major in Architecture, believing those years were wasted time, but I was wrong. Building software is remarkably similar to designing a building: you start by analyzing human needs, sketch spatial relations, and finally construct the structure. I realized that as the sole designer and engineer of this project, I am simply applying my architectural training to build a digital shelter instead of a physical one. However, executing this vision alone meant teaching myself the entire technology stack, from front-end frameworks to database logic.
-                        </p>
-                        <p>
-                            There were moments during development when I felt the same overwhelming fog I experienced as a freshman—when the code broke or the design felt flat. But this time, I had the tools to help myself. I treated my lack of technical knowledge not as a <strong class="text-stone-900 bg-stone-200 px-1 rounded">"Rock"</strong> (a permanent inability), but as a <strong class="text-stone-900 bg-emerald-100 px-1 rounded">"Seed"</strong> (something I hadn't learned yet). The iterative process of debugging and refining became a mirror of the app’s own philosophy: resilience is built through method, not magic.
-                        </p>
-                    </div>
+                    <h2 class="font-sans text-2xl font-bold text-stone-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-bold">03</span>
+                        The Effort
+                    </h2>
+                    
+                    <p class="mb-6">
+                        I used to regret my undergraduate major in Architecture, believing those years were wasted time, but I was wrong. Building software is remarkably similar to designing a building: you start by analyzing human needs, sketch spatial relations, and finally construct the structure. I realized that as the sole designer and engineer of this project, I am simply applying my architectural training to build a digital shelter instead of a physical one. However, executing this vision alone meant teaching myself the entire technology stack, from front-end frameworks to database logic.
+                    </p>
+                    
+                    <p>
+                        There were moments during development when I felt the same overwhelming fog I experienced as a freshman—when the code broke or the design felt flat. But this time, I had the tools to help myself. I treated my lack of technical knowledge not as a <span class="bg-stone-200 px-1 font-bold rounded">"Rock"</span> (a permanent inability), but as a <span class="bg-emerald-100 px-1 font-bold rounded">"Seed"</span> (something I hadn't learned yet). The iterative process of debugging and refining became a mirror of the app’s own philosophy: resilience is built through method, not magic.
+                    </p>
                 </section>
 
-                <!-- 4. The Vision -->
+                <!-- 4. The Vision (恢复长文) -->
                 <section id="vision" class="scroll-mt-32 pt-16 border-t border-stone-100">
-                    <h2 class="text-2xl font-bold text-stone-900 mb-6">The Vision</h2>
-                    <div class="text-lg leading-relaxed text-stone-700">
-                        <p class="mb-6">
-                            My ultimate goal is not just to build an app, but to create a scalable infrastructure for hope. Countless students cannot afford professional therapy or lack parents who understand the university system, leaving them stuck in the fog of attribution error. <strong class="text-stone-900">Lumina Forest is built for them.</strong> As Wilson and Linville’s research demonstrated, a brief intervention that shifts a student's perspective can have a profound "long-term effect," changing their entire academic trajectory and graduation rate.
-                        </p>
-                        <p class="mb-8">
-                            By making this tool accessible, I want to democratize psychological support so that for students from difficult backgrounds, a bad semester remains just a bad semester, not a life sentence. As the app’s closing screen reminds us:
-                        </p>
-                        
-                        <!-- 样式化引用 -->
-                        <blockquote class="border-l-4 border-rose-300 pl-6 italic text-xl text-stone-500 my-10 bg-stone-50 py-6 pr-4 rounded-r-lg shadow-sm">
-                            "Grades are just temporary weather, not your final destination."
-                        </blockquote>
+                    <h2 class="font-sans text-2xl font-bold text-stone-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-bold">04</span>
+                        The Vision
+                    </h2>
+                    
+                    <p class="mb-6">
+                        My ultimate goal is not just to build an app, but to create a scalable infrastructure for hope. Countless students cannot afford professional therapy or lack parents who understand the university system, leaving them stuck in the fog of attribution error. <strong>Lumina Forest is built for them.</strong> As Wilson and Linville’s research demonstrated, a brief intervention that shifts a student’s perspective can have a profound "long-term effect," changing their entire academic trajectory and graduation rate.
+                    </p>
+                    <p class="mb-10">
+                        By making this tool accessible, I want to democratize psychological support so that for students from difficult backgrounds, a bad semester remains just a bad semester, not a life sentence. As the app’s closing screen reminds us:
+                    </p>
 
-                        <p class="text-xl font-bold text-stone-900 mt-8">
-                            The wind is rising, and we have a path to clear.
-                        </p>
-                    </div>
+                    <blockquote class="border-l-4 border-rose-300 pl-6 italic text-stone-500 my-8 py-2 bg-stone-50 rounded-r-lg">
+                        "Grades are just temporary weather, not your final destination."
+                    </blockquote>
+
+                    <p class="font-bold text-stone-900 text-lg">
+                        The wind is rising, and we have a path to clear.
+                    </p>
                 </section>
 
             </div>
         </article>
     </main>
-    
+
+    <!-- Footer -->
+    <footer class="bg-stone-50 border-t border-stone-200 py-12 mt-20">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p class="font-serif italic text-stone-500 mb-4">"In the middle of the difficulty lies opportunity."</p>
+            <div class="font-sans text-xs font-bold text-stone-300 uppercase tracking-widest">
+                &copy; 2026 Jiayuan Zhang. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script>
-        //简单的滚动进度条脚本
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Carousel Logic ---
+            const track = document.getElementById('carousel-track');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            let currentIndex = 0;
+            const totalSlides = dots.length;
+
+            function updateCarousel(index) {
+                track.style.transform = `translateX(-${index * 100}%)`;
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.remove('bg-stone-400/50');
+                        dot.classList.add('bg-rose-500', 'scale-125');
+                    } else {
+                        dot.classList.add('bg-stone-400/50');
+                        dot.classList.remove('bg-rose-500', 'scale-125');
+                    }
+                });
+            }
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel(currentIndex);
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel(currentIndex);
+            });
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel(currentIndex);
+                });
+            });
+            updateCarousel(0);
+
+            // --- 2. Progress Bar Logic ---
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('progress-bar').style.width = scrollPercent + '%';
+            });
+
+            // --- 3. Table of Contents Highlighter ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.toc-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-rose-500', 'font-bold');
+                    link.classList.add('text-stone-400');
+                    if (link.getAttribute('data-target') === current) {
+                        link.classList.remove('text-stone-400');
+                        link.classList.add('text-rose-500', 'font-bold');
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
